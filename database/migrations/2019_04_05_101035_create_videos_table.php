@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateVideosTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('video', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('tempat_wisata_id')->unsigned();
+            $table->text('file');
+            $table->timestamps();
+            
+            $table->foreign('tempat_wisata_id')->references('id')->on('kegiatan');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('video');
+    }
+}
