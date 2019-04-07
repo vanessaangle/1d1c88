@@ -25,7 +25,7 @@
             @if(AppHelper::access(['Admin']))
             <div class="row">
                 <div class="col-md-12" style="padding-top:180px">                    
-                    <h2><center>SELAMAT DATANG SISTEM INFORMASI GEOGRAFIS PEMETAAN PENDUDUK MISKIN KABUPATEN BADUNG BERBASIS WEB</center></h2>                                    
+                    <h2><center>Selamat Datang di Aplikasi Promosi Desa Wisata </center></h2>                                    
                 </div>                
             </div>
             @else

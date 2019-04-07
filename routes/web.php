@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/dashboard','DashboardController@index')->name('admin.dashboard.index');
+Route::get('/dasasdahboard','DashboardController@index')->name('admin.user.profile');
+Route::get('/logout','Auth\\LoginController@index')->name('admin.auth.logout');
