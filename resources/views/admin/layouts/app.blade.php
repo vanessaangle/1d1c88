@@ -100,7 +100,7 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="{{Auth::guard('admin')->user()->foto != '' ? asset('image').'/'.Auth::guard('admin')->user()->foto : asset('admin-lte').'/dist/img/user2-160x160.jpg'}}" class="img-circle" alt="User Image">
+                        <img src="{{asset('admin-lte').'/dist/img/user2-160x160.jpg'}}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p>{{Auth::guard('admin')->user()->nama}}</p>
@@ -115,26 +115,34 @@
                             <i class="fa fa-home"></i> <span>Dashboard</span>                            
                         </a>
                     </li>
+                    @if(AppHelper::access(['Admin']))
+                        <li class="{{$template->menu == 'user' ? 'active' : ''}}">
+                            <a href="{{route('admin.user.index')}}"  >
+                                <i class="fa fa-user"></i> 
+                                <span>Manajemen User</span>
+                            </a>
+                        </li>   
+                    @endif
 
                     {{-- //menentukan hak akses user --}}
-                    {{-- @if(AppHelper::access(['Admin']))
+                    @if(AppHelper::access(['Admin']))
                         <li class="{{$template->menu == 'desa' ? 'active' : ''}}">
-                            <a href="{{route('desa.index')}}"  >
+                            <a href="{{route('admin.desa.index')}}"  >
                                 <i class="fa fa-map"></i> 
-                                <span>Desa</span>
+                                <span>Manajemen Desa</span>
                             </a>
                         </li>   
-                    @endif --}}
+                    @endif
 
                     {{-- //menentukan hak akses user --}}
-                    {{-- @if(AppHelper::access(['Operator']))
-                        <li class="{{$template->menu == 'penduduk' ? 'active' : ''}}">
-                            <a href="{{route('penduduk.index')}}"  >
+                    @if(AppHelper::access(['Admin']))
+                        <li class="{{$template->menu == 'tempat_wisata' ? 'active' : ''}}">
+                            <a href="{{route('admin.tempat-wisata.index')}}"  >
                                 <i class="fa fa-users"></i> 
-                                <span>Penduduk</span>
+                                <span>Tempat Wisata</span>
                             </a>
                         </li>   
-                    @endif --}}
+                    @endif
 
                     {{-- @if(AppHelper::access(['Operator','Admin']))
                         <li class="{{$template->menu == 'web' ? 'active' : ''}}">
@@ -146,14 +154,6 @@
                     @endif --}}
                     
                     {{-- //menentukan hak akses user --}}
-                    {{-- @if(AppHelper::access(['Admin']))
-                        <li class="{{$template->menu == 'user' ? 'active' : ''}}">
-                            <a href="{{route('user.index')}}"  >
-                                <i class="fa fa-user"></i> 
-                                <span>Manajemen User</span>
-                            </a>
-                        </li>   
-                    @endif --}}
                     
                     
                 </ul>

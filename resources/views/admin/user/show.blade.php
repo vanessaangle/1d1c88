@@ -55,9 +55,9 @@
                                             <td>{{$data->username}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Telepon</td>
+                                            <td>Alamat</td>
                                             <td>:</td>
-                                            <td>{{$data->telepon}}</td>
+                                            <td>{{$data->alamat}}</td>
                                         </tr>
                                         <tr>
                                             <td>Role</td>
@@ -67,7 +67,7 @@
                                         <tr>
                                             <td>Tanggal Lahir</td>
                                             <td>:</td>
-                                            <td>{{$data->tanggal_lahir}}</td>
+                                            <td>{{$data->tgl_lahir}}</td>
                                         </tr>
                                         <tr>
                                             <td>Tempat Lahir</td>

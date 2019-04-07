@@ -54,9 +54,10 @@
     <!-- /.content-wrapper -->
 @endsection
 @push('js')
-    <!-- page script -->
+    <script src="{{asset('admin-lte/bower_components/ckeditor/ckeditor.js')}}"></script>
     <script>
-    $(function () {
+        
+        $(function () {
         $('#datatables').DataTable()
         $('#full-datatables').DataTable({
         'paging'      : true,
@@ -68,7 +69,7 @@
         })
     })
     </script>
-     <script>
+    <script>
         var map, marker;
          function initMap(){
             console.log('INIT MAP');

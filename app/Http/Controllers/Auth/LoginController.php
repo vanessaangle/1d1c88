@@ -41,6 +41,7 @@ class LoginController extends Controller
         ];
 
         if (Auth::guard('admin')->attempt($credentials)) {
+            \Log::info('Success Login');
             if ($request->has('redirect')) {
                 return redirect($request->redirect);
             }

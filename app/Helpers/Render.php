@@ -150,7 +150,7 @@ class Render
         return "
 			<div class='form-group'>
 				<label for=\"$this->name\">$this->label</label>
-				<textarea ' type=\"$this->type\" $this->required id=\"$this->name\" name=\"$this->name\" class=\"form-control\">$value</textarea>    	
+				<textarea type=\"$this->type\" $this->required id=\"$this->name\" name=\"$this->name\" class=\"form-control\">$value</textarea>    	
 			</div>
         ";
     }
@@ -172,7 +172,7 @@ class Render
         return "
 			<div class='form-group'>
 				<label for=\"$this->name\">$this->label</label>
-				<textarea id='ckeditor' type=\"$this->type\" $this->required id=\"$this->name\" name=\"$this->name\" class=\"form-control ckeditor\">$value</textarea>    	
+				<textarea type=\"$this->type\" $this->required id=\"$this->name\" name=\"$this->name\" class=\"form-control ckeditor\">$value</textarea>    	
 			</div>
         ";
     }

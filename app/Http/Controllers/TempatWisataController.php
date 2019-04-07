@@ -3,43 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\TempatWisata;
+use App\Desa;
 use Carbon\Carbon;
 use App\Helpers\Alert;
 
-class UserController extends Controller
+class TempatWisataController extends Controller
 {
     private $template = [
-        'title' => 'User',
-        'route' => 'admin.user',
-        'menu' => 'user',
+        'title' => 'Tempat Wisata',
+        'route' => 'admin.tempat-wisata',
+        'menu' => 'tempat_wisata',
         'icon' => 'fa fa-users',
         'theme' => 'skin-red'
     ];
 
     private function form()
     {
-        $status = [
-            ['value' => 1,'name' => 'Aktif'],
-            ['value' => 0,'name' => 'Tidak Aktif']
-        ];
-
-        $role = [
-            ['value' => 'Admin','name' => 'Admin'],
-        ];
-
+        $desa = Desa::select('id as value','nama_desa as name')
+            ->get();
         return [
-            ['label' => 'Nama Pengguna', 'name' => 'nama'],
-            ['label' => 'Alamat', 'name' => 'alamat'],
-            ['label' => 'Tanggal Lahir','name' => 'tgl_lahir', 'type' => 'datepicker'],
-            ['label' => 'Tempat Lahir','name' => 'tempat_lahir'],
-            ['label' => 'Username','name' => 'username'],
-            ['label' => 'Password','name' => 'password','type' => 'password'],
-            ['label' => 'Status','name' => 'status', 'type' => 'select','option' => $status],
-            ['label' => 'Role','name' => 'role','type' => 'select','option' => $role],
+            ['label' => 'Nama Wisata', 'name' => 'nama_wisata'],
+            ['label' => 'Desa','name' => 'desa_id','type' => 'select', 'option' => $desa],
+            ['label' => 'Alamat Wisata', 'name' => 'alamat_wisata', 'type' => 'textarea'],
+            ['label' => 'Sejarah','name' => 'sejarah_wisata', 'type' => 'ckeditor'],
+            ['label' => 'Demografi','name' => 'demografi', 'type' => 'ckeditor'],
+            ['label' => 'Potensi','name' => 'potensi', 'type' => 'ckeditor'],
+            ['label' => 'Lokasi','type' => 'map'],
         ];
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -48,8 +40,8 @@ class UserController extends Controller
     public function index()
     {
         $template = (object) $this->template;
-        $data = User::all();
-        return view('admin.user.index',compact('template','data'));
+        $data = TempatWisata::all();
+        return view('admin.tempat_wisata.index',compact('template','data'));
     }
 
     /**
@@ -61,7 +53,7 @@ class UserController extends Controller
     {
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.user.create',compact('template','form'));
+        return view('admin.tempat_wisata.create',compact('template','form'));
     }
 
     /**
@@ -73,18 +65,19 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|unique:user',
-            'password' => 'required|confirmed|min:6',
-            'nama' => 'required',
-            'alamat' => 'required',
-            'tgl_lahir' => 'required',
-            'tempat_lahir' => 'required',
-            'role' => 'required'
+            'nama_wisata' => 'required',
+            'desa_id' => 'required|exists:desa,id',
+            'alamat_wisata' => 'required',
+            'sejarah_wisata' => 'required',
+            'demografi' => 'required',
+            'potensi' => 'required',
+            'lat' => 'required',
+            'lng' => 'required'
+            
         ]);
         $data = $request->all();
-        $data['password'] = bcrypt($request->password);
-        $data['tgl_lahir'] = Carbon::parse($request->tanggal_lahir)->format('Y-m-d');
-        User::create($data);
+        $data['user_id'] = auth()->user()->id;
+        TempatWisata::create($data);
         Alert::make('success','Berhasil  simpan data');
         return redirect(route($this->template['route'].'.index'));
     }
@@ -98,8 +91,8 @@ class UserController extends Controller
     public function show($id)
     {
         $template = (object)$this->template;
-        $data = User::findOrFail($id);
-        return view('admin.user.show',compact('template','data'));
+        $data = TempatWisata::findOrFail($id);
+        return view('admin.tempat_wisata.show',compact('template','data'));
     }
 
     /**
@@ -110,7 +103,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $data = User::findOrFail($id);
+        $data = Desa::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
         return view('admin.user.edit',compact('template','form','data'));
@@ -126,16 +119,11 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'username' => "required|unique:user,username,$id",
-            'password' => 'nullable|confirmed|min:6'
+            'nama_desa' => 'required',
+            'status' => 'required',
         ]);
         $data = $request->all();
-        if($request ->password == ''){
-             unset($data['password']);
-        }else{
-              $data['password'] = bcrypt($request->password);
-        }
-        User::find($id)->update($data);
+        Desa::find($id)->update($data);
         Alert::make('success','Berhasil mengubah data');
         return redirect(route($this->template['route'].'.index'));
     }

@@ -16,7 +16,15 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/dashboard','DashboardController@index')->name('admin.dashboard.index');
-Route::get('/dasasdahboard','DashboardController@index')->name('admin.user.profile');
-Route::get('/logout','Auth\\LoginController@index')->name('admin.auth.logout');
+Route::middleware(['auth'])->group(function(){
+    Route::get('/dashboard','DashboardController@index')->name('admin.dashboard.index');
+    Route::get('/dasasdahboard','DashboardController@index')->name('admin.user.profile');
+    Route::get('/logout','Auth\\LoginController@index')->name('admin.auth.logout');
+    Route::name('admin.')->group(function(){
+        Route::resources([
+            '/user' => 'UserController',
+            '/desa' => 'DesaController',
+            '/tempat-wisata' => 'TempatWisataController'
+        ]);
+    });
+});

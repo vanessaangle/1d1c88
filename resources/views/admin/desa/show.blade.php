@@ -52,14 +52,7 @@
                                         <tr>
                                             <td>Status Desa</td>
                                             <td>:</td>
-                                            <td>{{$data->status_desa}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Lokasi Desa</td>
-                                            <td>:</td>
-                                            <td>
-                                                <div id='google_map' style='height:400px;'></div>
-                                            </td>
+                                            <td>{{$data->status}}</td>
                                         </tr>
                                     </tbody>
                                 </tbody>
@@ -77,41 +70,3 @@
     </div>
     <!-- /.content-wrapper -->
 @endsection
-@push('js')
-    <!-- page script -->
-     <script>
-        var map, marker;
-         function initMap(){
-            console.log('INIT MAP');
-            var myLatLng = {lat: {{$data->lat}}, lng: {{$data->lng}} };         
-            $('.lat').val(myLatLng.lat);
-            $('.lng').val(myLatLng.lng); 
-            map = new google.maps.Map(document.getElementById('google_map'), {
-                zoom: 16,
-                center: myLatLng
-            });  
-
-            marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                draggable:false,
-                title: 'Lokasi Desa'
-            });
-            marker.setPosition(event.latLng);
-        }
-    </script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDX5i1N1RR3DSQTIRu0ZbIyTgorg7Rhg_g&callback=initMap"></script>
-    <script>
-    $(function () {
-        $('#datatables').DataTable()
-        $('#full-datatables').DataTable({
-        'paging'      : true,
-        'lengthChange': false,
-        'searching'   : false,
-        'ordering'    : true,
-        'info'        : true,
-        'autoWidth'   : false
-        })
-    })
-    </script>
-@endpush

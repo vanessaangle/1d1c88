@@ -43,7 +43,7 @@
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td>{{$row->nama_desa}}</td>
-                                            <td>{{$row->status_desa}}</td>
+                                            <td>{{$row->status}}</td>
                                             <td>
                                                 <a href="{{route("$template->route".'.edit',[$row->id])}}" class="btn btn-success btn-sm">Ubah</a>
                                                 <a href="{{route("$template->route".'.show',[$row->id])}}" class="btn btn-info btn-sm">Lihat</a>

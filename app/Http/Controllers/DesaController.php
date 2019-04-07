@@ -3,43 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Desa;
 use Carbon\Carbon;
 use App\Helpers\Alert;
 
-class UserController extends Controller
+class DesaController extends Controller
 {
     private $template = [
-        'title' => 'User',
-        'route' => 'admin.user',
-        'menu' => 'user',
-        'icon' => 'fa fa-users',
+        'title' => 'Desa',
+        'route' => 'admin.desa',
+        'menu' => 'desa',
+        'icon' => 'fa fa-map',
         'theme' => 'skin-red'
     ];
 
     private function form()
     {
-        $status = [
-            ['value' => 1,'name' => 'Aktif'],
-            ['value' => 0,'name' => 'Tidak Aktif']
-        ];
-
-        $role = [
-            ['value' => 'Admin','name' => 'Admin'],
-        ];
-
         return [
-            ['label' => 'Nama Pengguna', 'name' => 'nama'],
-            ['label' => 'Alamat', 'name' => 'alamat'],
-            ['label' => 'Tanggal Lahir','name' => 'tgl_lahir', 'type' => 'datepicker'],
-            ['label' => 'Tempat Lahir','name' => 'tempat_lahir'],
-            ['label' => 'Username','name' => 'username'],
-            ['label' => 'Password','name' => 'password','type' => 'password'],
-            ['label' => 'Status','name' => 'status', 'type' => 'select','option' => $status],
-            ['label' => 'Role','name' => 'role','type' => 'select','option' => $role],
+            ['label' => 'Nama Desa', 'name' => 'nama_desa'],
+            ['label' => 'Status', 'name' => 'status'],
         ];
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -48,8 +32,8 @@ class UserController extends Controller
     public function index()
     {
         $template = (object) $this->template;
-        $data = User::all();
-        return view('admin.user.index',compact('template','data'));
+        $data = Desa::all();
+        return view('admin.desa.index',compact('template','data'));
     }
 
     /**
@@ -73,18 +57,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|unique:user',
-            'password' => 'required|confirmed|min:6',
-            'nama' => 'required',
-            'alamat' => 'required',
-            'tgl_lahir' => 'required',
-            'tempat_lahir' => 'required',
-            'role' => 'required'
+            'nama_desa' => 'required',
+            'status' => 'required',
+            
         ]);
         $data = $request->all();
-        $data['password'] = bcrypt($request->password);
-        $data['tgl_lahir'] = Carbon::parse($request->tanggal_lahir)->format('Y-m-d');
-        User::create($data);
+        Desa::create($data);
         Alert::make('success','Berhasil  simpan data');
         return redirect(route($this->template['route'].'.index'));
     }
@@ -98,8 +76,8 @@ class UserController extends Controller
     public function show($id)
     {
         $template = (object)$this->template;
-        $data = User::findOrFail($id);
-        return view('admin.user.show',compact('template','data'));
+        $data = Desa::findOrFail($id);
+        return view('admin.desa.show',compact('template','data'));
     }
 
     /**
@@ -110,7 +88,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $data = User::findOrFail($id);
+        $data = Desa::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
         return view('admin.user.edit',compact('template','form','data'));
@@ -126,16 +104,11 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'username' => "required|unique:user,username,$id",
-            'password' => 'nullable|confirmed|min:6'
+            'nama_desa' => 'required',
+            'status' => 'required',
         ]);
         $data = $request->all();
-        if($request ->password == ''){
-             unset($data['password']);
-        }else{
-              $data['password'] = bcrypt($request->password);
-        }
-        User::find($id)->update($data);
+        Desa::find($id)->update($data);
         Alert::make('success','Berhasil mengubah data');
         return redirect(route($this->template['route'].'.index'));
     }
