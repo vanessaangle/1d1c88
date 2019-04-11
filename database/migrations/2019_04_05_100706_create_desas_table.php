@@ -18,6 +18,7 @@ class CreateDesasTable extends Migration
             $table->string('nama_desa');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

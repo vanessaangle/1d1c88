@@ -20,7 +20,7 @@ class CreateKegiatansTable extends Migration
             $table->text('deskripsi');
             $table->string('foto');
             $table->timestamps();
-
+            $table->softDeletes();
             $table->foreign('tempat_wisata_id')->references('id')->on('kegiatan');
         });
     }

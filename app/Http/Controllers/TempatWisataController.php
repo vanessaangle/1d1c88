@@ -103,10 +103,10 @@ class TempatWisataController extends Controller
      */
     public function edit($id)
     {
-        $data = Desa::findOrFail($id);
+        $data = TempatWisata::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.user.edit',compact('template','form','data'));
+        return view('admin.tempat_wisata.edit',compact('template','form','data'));
     }
 
     /**
@@ -119,11 +119,17 @@ class TempatWisataController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_desa' => 'required',
-            'status' => 'required',
+            'nama_wisata' => 'required',
+            'desa_id' => 'required|exists:desa,id',
+            'alamat_wisata' => 'required',
+            'sejarah_wisata' => 'required',
+            'demografi' => 'required',
+            'potensi' => 'required',
+            'lat' => 'required',
+            'lng' => 'required'
         ]);
         $data = $request->all();
-        Desa::find($id)->update($data);
+        TempatWisata::find($id)->update($data);
         Alert::make('success','Berhasil mengubah data');
         return redirect(route($this->template['route'].'.index'));
     }
@@ -136,6 +142,8 @@ class TempatWisataController extends Controller
      */
     public function destroy($id)
     {
-        //
+        TempatWisata::destroy($id);
+        Alert::make('success','Berhasil menghapus data');
+        return back();
     }
 }

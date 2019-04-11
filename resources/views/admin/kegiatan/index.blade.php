@@ -24,7 +24,7 @@
                     <div class="box box-info">
                         <div class="box-header">
                             <h3 class="box-title"><i class="{{$template->icon}}"></i> List {{$template->title}}</h3>
-                            <a href="{{route("$template->route".'.create')}}" class="btn btn-primary pull-right">
+                            <a href="{{route("$template->route".'.create',[$tempat_wisata_id])}}" class="btn btn-primary pull-right">
                                 <i class="fa fa-pencil"></i> Tambah {{$template->title}}
                             </a>
                         </div>
@@ -32,25 +32,21 @@
                             <table class="table" id="datatables">
                                 <thead>
                                     <tr>
-                                        <td>No</td>
-                                        <th>Nama Wisata</th>
-                                        <th>Desa</th>
-                                        <th>Alamat</th>
-                                        <th>Opsi</th>
+                                        <th>No</th>
+                                        <th>Nama Kegiatan</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($data as $key => $row)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$row->nama_wisata}}</td>
-                                            <td>{{$row->desa->nama_desa}}</td>
-                                            <td>{{$row->alamat_wisata}}</td>
+                                            <td>{{$row->nama_kegiatan}}</td>
                                             <td>
-                                                <a href="{{route("$template->route".'.edit',[$row->id])}}" class="btn btn-success btn-sm">Ubah</a>
-                                                <a href="{{route("$template->route".'.show',[$row->id])}}" class="btn btn-info btn-sm">Lihat</a>
+                                                <a href="{{route("$template->route".'.edit',[$tempat_wisata_id,$row->id])}}" class="btn btn-success btn-sm">Ubah</a>
+                                                <a href="{{route("$template->route".'.show',[$tempat_wisata_id,$row->id])}}" class="btn btn-info btn-sm">Lihat</a>
                                                 <a href="#" onclick="event.preventDefault();document.getElementById('formDelete{{$key}}').submit();" class="btn btn-danger btn-sm">Hapus</a>
-                                                <form action="{{route("$template->route".'.destroy',[$row->id])}}" id="formDelete{{$key}}" method="post">
+                                                <form action="{{route("$template->route".'.destroy',[$tempat_wisata_id,$row->id])}}" id="formDelete{{$key}}" method="post">
                                                     @method('delete')
                                                     {{ csrf_field() }}
                                                 </form>
@@ -83,5 +79,4 @@
         })
     })
     </script>
-    
 @endpush

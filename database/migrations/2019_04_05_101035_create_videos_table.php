@@ -18,7 +18,7 @@ class CreateVideosTable extends Migration
             $table->bigInteger('tempat_wisata_id')->unsigned();
             $table->text('file');
             $table->timestamps();
-            
+            $table->softDeletes();
             $table->foreign('tempat_wisata_id')->references('id')->on('kegiatan');
         });
     }

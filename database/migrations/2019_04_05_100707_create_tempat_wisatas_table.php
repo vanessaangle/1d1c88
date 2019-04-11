@@ -25,6 +25,7 @@ class CreateTempatWisatasTable extends Migration
             $table->text('lat');
             $table->text('lng');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('desa_id')->references('id')->on('desa');
             $table->foreign('user_id')->references('id')->on('user');
