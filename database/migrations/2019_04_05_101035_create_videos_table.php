@@ -19,7 +19,7 @@ class CreateVideosTable extends Migration
             $table->text('file');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('tempat_wisata_id')->references('id')->on('kegiatan');
+            $table->foreign('tempat_wisata_id')->references('id')->on('tempat_wisata');
         });
     }
 
