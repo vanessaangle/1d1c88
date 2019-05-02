@@ -14,3 +14,5 @@ use Illuminate\Http\Request;
 */
 
 Route::get('wisata','ApiController@getWisata');
+Route::get('kegiatan','ApiController@getKegiatan');
+Route::get('wisata/{id}/foto','ApiController@getFotoWisata');
