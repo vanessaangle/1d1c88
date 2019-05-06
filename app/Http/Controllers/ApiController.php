@@ -9,9 +9,9 @@ use App\Foto;
 
 class ApiController extends Controller
 {
-    public function getWisata(Request $request)
+    public function getWisata(Request $request, $cari = null)
     {
-        $cari = $request->cari;
+        //$cari = $request->cari;
         $desa_wisata = Desa::select('*', 'tempat_wisata.id as tempat_wisata_id')
         ->join('tempat_wisata','tempat_wisata.desa_id','=','desa.id')
         ->where('tempat_wisata.nama_wisata','like',"%$cari%")->get();
@@ -30,14 +30,12 @@ class ApiController extends Controller
         ]);
     } */
 
-    public function getKegiatan(){
-        $kegiatan = Kegiatan::select('*','foto.file as file_foto','video.file as file_video')
-        ->join('foto','foto.tempat_wisata_id','=','kegiatan.tempat_wisata_id')
-        ->join('video','video.tempat_wisata_id','=','kegiatan.tempat_wisata_id')->get();
+    public function getKegiatan(Request $request, $filter = null){
+        $kegiatan = Kegiatan::select('*')->where('kegiatan.nama_kegiatan','like',"%$filter%")->get();
         return response()->json($kegiatan);
     }
 
-    public function getFotoWisata(Request $request,$id_wisata){
+    public function getFotoWisata(Request $request, $id_wisata){
         $foto = Foto::where('tempat_wisata_id',$id_wisata)->get();
         return response()->json($foto);
     }
