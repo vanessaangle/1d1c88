@@ -7,6 +7,7 @@ use App\TempatWisata;
 use App\Desa;
 use Carbon\Carbon;
 use App\Helpers\Alert;
+use App\Helpers\AppHelper;
 
 class TempatWisataController extends Controller
 {
@@ -29,6 +30,7 @@ class TempatWisataController extends Controller
             ['label' => 'Sejarah','name' => 'sejarah_wisata', 'type' => 'ckeditor'],
             ['label' => 'Demografi','name' => 'demografi', 'type' => 'ckeditor'],
             ['label' => 'Potensi','name' => 'potensi', 'type' => 'ckeditor'],
+            ['label' => 'Thumbnail', 'name' => 'thumbnail','type' => 'file'],
             ['label' => 'Lokasi','type' => 'map'],
         ];
     }
@@ -72,11 +74,14 @@ class TempatWisataController extends Controller
             'demografi' => 'required',
             'potensi' => 'required',
             'lat' => 'required',
-            'lng' => 'required'
+            'lng' => 'required',
+            'thumbnail' => 'required|mimes:png,jpg,jpeg'
             
         ]);
         $data = $request->all();
+        $uploader = AppHelper::uploader($this->form(),$request);
         $data['user_id'] = auth()->user()->id;
+        $data['thumbnail'] =  $uploader['thumbnail'];
         TempatWisata::create($data);
         Alert::make('success','Berhasil  simpan data');
         return redirect(route($this->template['route'].'.index'));
@@ -128,8 +133,14 @@ class TempatWisataController extends Controller
             'lat' => 'required',
             'lng' => 'required'
         ]);
+        $wisata = TempatWisata::find($id);
         $data = $request->all();
-        TempatWisata::find($id)->update($data);
+        $data['thumbnail'] = $wisata->thumbnail;
+        if($request->hasFile('thumbnail')){
+            $uploader = AppHelper::uploader($this->form(),$request);
+            $data['thumbnail'] = $uploader['thumbnail'];
+        }
+        $wisata->update($data);
         Alert::make('success','Berhasil mengubah data');
         return redirect(route($this->template['route'].'.index'));
     }
