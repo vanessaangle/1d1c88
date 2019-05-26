@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\TempatWisata;
+use App\DesaWisata;
 use App\Desa;
 use Carbon\Carbon;
 use App\Helpers\Alert;
 use App\Helpers\AppHelper;
 
-class TempatWisataController extends Controller
+class DesaWisataController extends Controller
 {
     private $template = [
-        'title' => 'Tempat Wisata',
-        'route' => 'admin.tempat-wisata',
+        'title' => 'Desa Wisata',
+        'route' => 'admin.desa-wisata',
         'menu' => 'tempat_wisata',
         'icon' => 'fa fa-users',
         'theme' => 'skin-red'
@@ -21,16 +21,13 @@ class TempatWisataController extends Controller
 
     private function form()
     {
-        $desa = Desa::select('id as value','nama_desa as name')
-            ->get();
         return [
-            ['label' => 'Nama Wisata', 'name' => 'nama_wisata'],
-            ['label' => 'Desa','name' => 'desa_id','type' => 'select', 'option' => $desa],
-            ['label' => 'Alamat Wisata', 'name' => 'alamat_wisata', 'type' => 'textarea'],
-            ['label' => 'Sejarah','name' => 'sejarah_wisata', 'type' => 'ckeditor'],
+            ['label' => 'Nama Wisata', 'name' => 'nama_wisata','view_index' => true],
+            ['label' => 'Alamat Wisata', 'name' => 'alamat_wisata', 'type' => 'textarea','view_index' => true],
+            ['label' => 'Sejarah','name' => 'sejarah_desa', 'type' => 'ckeditor','view_index' => true],
             ['label' => 'Demografi','name' => 'demografi', 'type' => 'ckeditor'],
             ['label' => 'Potensi','name' => 'potensi', 'type' => 'ckeditor'],
-            ['label' => 'Thumbnail', 'name' => 'thumbnail','type' => 'file'],
+            ['label' => 'Thumbnail', 'name' => 'thumbnail','type' => 'file','required' => ['create']],
             ['label' => 'Lokasi','type' => 'map'],
         ];
     }
@@ -42,8 +39,9 @@ class TempatWisataController extends Controller
     public function index()
     {
         $template = (object) $this->template;
-        $data = TempatWisata::all();
-        return view('admin.tempat_wisata.index',compact('template','data'));
+        $data = DesaWisata::all();
+        $form = $this->form();
+        return view('admin.master.index',compact('template','data','form'));
     }
 
     /**
@@ -55,7 +53,7 @@ class TempatWisataController extends Controller
     {
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.tempat_wisata.create',compact('template','form'));
+        return view('admin.master.create',compact('template','form'));
     }
 
     /**
@@ -68,9 +66,8 @@ class TempatWisataController extends Controller
     {
         $request->validate([
             'nama_wisata' => 'required',
-            'desa_id' => 'required|exists:desa,id',
             'alamat_wisata' => 'required',
-            'sejarah_wisata' => 'required',
+            'sejarah_desa' => 'required',
             'demografi' => 'required',
             'potensi' => 'required',
             'lat' => 'required',
@@ -82,7 +79,7 @@ class TempatWisataController extends Controller
         $uploader = AppHelper::uploader($this->form(),$request);
         $data['user_id'] = auth()->user()->id;
         $data['thumbnail'] =  $uploader['thumbnail'];
-        TempatWisata::create($data);
+        DesaWisata::create($data);
         Alert::make('success','Berhasil  simpan data');
         return redirect(route($this->template['route'].'.index'));
     }
@@ -96,8 +93,9 @@ class TempatWisataController extends Controller
     public function show($id)
     {
         $template = (object)$this->template;
-        $data = TempatWisata::findOrFail($id);
-        return view('admin.tempat_wisata.show',compact('template','data'));
+        $data = DesaWisata::findOrFail($id);
+        $form = $this->form();
+        return view('admin.master.show',compact('template','data'));
     }
 
     /**
@@ -108,10 +106,10 @@ class TempatWisataController extends Controller
      */
     public function edit($id)
     {
-        $data = TempatWisata::findOrFail($id);
+        $data = DesaWisata::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.tempat_wisata.edit',compact('template','form','data'));
+        return view('admin.master.edit',compact('template','form','data'));
     }
 
     /**
@@ -125,15 +123,14 @@ class TempatWisataController extends Controller
     {
         $request->validate([
             'nama_wisata' => 'required',
-            'desa_id' => 'required|exists:desa,id',
             'alamat_wisata' => 'required',
-            'sejarah_wisata' => 'required',
+            'sejarah_desa' => 'required',
             'demografi' => 'required',
             'potensi' => 'required',
             'lat' => 'required',
             'lng' => 'required'
         ]);
-        $wisata = TempatWisata::find($id);
+        $wisata = DesaWisata::find($id);
         $data = $request->all();
         $data['thumbnail'] = $wisata->thumbnail;
         if($request->hasFile('thumbnail')){
@@ -153,7 +150,7 @@ class TempatWisataController extends Controller
      */
     public function destroy($id)
     {
-        TempatWisata::destroy($id);
+        DesaWisata::destroy($id);
         Alert::make('success','Berhasil menghapus data');
         return back();
     }

@@ -44,41 +44,25 @@
                                 </thead>
                                 <tbody>
                                     <tbody>                                                                                       
-                                        <tr>
-                                            <td>Nama</td>
-                                            <td>:</td>
-                                            <td>{{$data->nama}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Username</td>
-                                            <td>:</td>
-                                            <td>{{$data->username}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Alamat</td>
-                                            <td>:</td>
-                                            <td>{{$data->alamat}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Role</td>
-                                            <td>:</td>
-                                            <td>{{$data->role}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tanggal Lahir</td>
-                                            <td>:</td>
-                                            <td>{{$data->tgl_lahir}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tempat Lahir</td>
-                                            <td>:</td>
-                                            <td>{{$data->tempat_lahir}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Status</td>
-                                            <td>:</td>
-                                            <td>{{$data->status == 1 ? 'Aktif' : 'Tidak Aktif'}}</td>
-                                        </tr>
+                                       @foreach ($form as $item)
+                                            @if (array_key_exists('type',$item) && $item['type'] == 'password')
+                                            
+                                            @elseif(array_key_exists('type',$item) && $item['type'] == 'file')
+                                            <tr>
+                                                <td>{{$item['label']}}</td>
+                                                <td>:</td>
+                                                <td>
+                                                    <a href="{{asset($data->{$item['name']})}}" target="_blank">{{$data->{$item['name']} }}</a>
+                                                </td>
+                                            </tr>
+                                            @else
+                                            <tr>
+                                                <td>{{$item['label']}}</td>
+                                                <td>:</td>
+                                                <td>{!! $data->{$item['name']} !!}</td>
+                                            </tr>
+                                            @endif
+                                        @endforeach
                                     </tbody>
                                 </tbody>
                             </table>
@@ -86,7 +70,6 @@
                         <div class="box-footer">                                
                             <a href="{{ url()->previous() }}" class="btn btn-default">Kembali</a>
                         </div>
-                        
                     </div>
                 </div>
            </div>
@@ -97,6 +80,28 @@
 @endsection
 @push('js')
     <!-- page script -->
+     <script>
+        var map, marker;
+         function initMap(){
+            console.log('INIT MAP');
+            var myLatLng = {lat: {{$data->lat}}, lng: {{$data->lng}} };         
+            $('.lat').val(myLatLng.lat);
+            $('.lng').val(myLatLng.lng); 
+            map = new google.maps.Map(document.getElementById('google_map'), {
+                zoom: 16,
+                center: myLatLng
+            });  
+
+            marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                draggable:false,
+                title: 'Lokasi Desa'
+            });
+            marker.setPosition(event.latLng);
+        }
+    </script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDX5i1N1RR3DSQTIRu0ZbIyTgorg7Rhg_g&callback=initMap"></script>
     <script>
     $(function () {
         $('#datatables').DataTable()

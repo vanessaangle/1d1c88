@@ -186,4 +186,18 @@ class AppHelper{
         return $uploaded;
     }
 
+
+    public static function config(Array $conf = [], $key)
+    {
+        $default = [
+            'index.show.is_show' => true,
+            'index.create.is_show' => true,
+            'index.delete.is_show' => true,
+            'index.edit.is_show' => true
+        ];
+        
+        $config = array_merge($default, $conf);
+        return $config[$key];
+    }
+
 }

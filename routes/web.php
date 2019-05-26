@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function(){
         Route::resources([
             '/user' => 'UserController',
             '/desa' => 'DesaController',
-            '/tempat-wisata' => 'TempatWisataController'
+            '/desa-wisata' => 'DesaWisataController'
         ]);
     });
     Route::get('tempat-wisata/{kegiatan_id}/kegiatan','KegiatanController@index')->name('admin.tempat_wisata.kegiatan.index');

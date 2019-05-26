@@ -13,7 +13,7 @@ class Foto extends Model
 
     protected $guarded = [];
 
-    public function tempat_wisata()
+    public function desa_wisata()
     {
         return $this->belongsTo(TempatWisata::class);
     }

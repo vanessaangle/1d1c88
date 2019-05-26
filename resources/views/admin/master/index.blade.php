@@ -3,6 +3,9 @@
 
 @endpush
 @section('content')
+    @php
+        @$config = $template->config == null ? [] : $template->config;
+    @endphp
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -24,7 +27,7 @@
                     <div class="box box-info">
                         <div class="box-header">
                             <h3 class="box-title"><i class="{{$template->icon}}"></i> List {{$template->title}}</h3>
-                            <a href="{{route("$template->route".'.create')}}" class="btn btn-primary pull-right">
+                            <a href="{{route("$template->route".'.create')}}" class="btn btn-primary pull-right {{AppHelper::config($config,'index.create.is_show') ? '' : 'hidden'}}">
                                 <i class="fa fa-pencil"></i> Tambah {{$template->title}}
                             </a>
                         </div>
@@ -32,27 +35,37 @@
                             <table class="table" id="datatables">
                                 <thead>
                                     <tr>
-                                        <td>No</td>
-                                        <th>Nama Wisata</th>
-                                        <th>Desa</th>
-                                        <th>Alamat</th>
-                                        <th>Opsi</th>
+                                        <td>No.</td>
+                                        @foreach ($form as $item)
+                                            @if (array_key_exists('view_index',$item) && $item['view_index'])
+                                                <td>{{$item['label']}}</td>
+                                            @endif
+                                        @endforeach
+                                        <td>Opsi</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($data as $key => $row)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$row->nama_wisata}}</td>
-                                            <td>{{$row->desa->nama_desa}}</td>
-                                            <td>{{$row->alamat_wisata}}</td>
+                                            @foreach ($form as $item)
+                                                @if (array_key_exists('view_index',$item) && $item['view_index'])
+                                                    <td>
+                                                        @if (array_key_exists('view_relation',$item))
+                                                        {{ AppHelper::viewRelation($row,$item['view_relation']) }}
+                                                        @else
+                                                        {{ $row->{$item['name']} }}
+                                                        @endif
+                                                    </td>
+                                                @endif
+                                            @endforeach
                                             <td>
-                                                <a href="{{route("$template->route".'.edit',[$row->id])}}" class="btn btn-success btn-sm">Ubah</a>
-                                                <a href="{{route("$template->route".'.show',[$row->id])}}" class="btn btn-info btn-sm">Lihat</a>
-                                                <a href="#" onclick="event.preventDefault();document.getElementById('formDelete{{$key}}').submit();" class="btn btn-danger btn-sm">Hapus</a>
-                                                <form action="{{route("$template->route".'.destroy',[$row->id])}}" id="formDelete{{$key}}" method="post">
-                                                    @method('delete')
+                                                <a href="{{route("$template->route".'.edit',[$row->id])}}" class="btn btn-success btn-sm {{AppHelper::config($config,'index.edit.is_show') ? '' : 'hidden'}}">Ubah</a>
+                                                <a href="{{route("$template->route".'.show',[$row->id])}}" class="btn btn-info btn-sm {{AppHelper::config($config,'index.show.is_show') ? '' : 'hidden'}}">Lihat</a>
+                                                <a href="#" class="btn btn-danger btn-sm {{AppHelper::config($config,'index.delete.is_show') ? '' : 'hidden'}}" onclick="confirm('Lanjutkan ?') ? $('#frmDelete{{$row->id}}').submit() : ''">Hapus</a>
+                                                <form action="{{route("$template->route".'.destroy',[$row->id])}}" method="POST" id="frmDelete{{$row->id}}">
                                                     {{ csrf_field() }}
+                                                    @method('DELETE')
                                                 </form>
                                             </td>
                                         </tr>
@@ -83,5 +96,4 @@
         })
     })
     </script>
-    
 @endpush

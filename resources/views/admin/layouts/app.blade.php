@@ -124,22 +124,13 @@
                         </li>   
                     @endif
 
-                    {{-- //menentukan hak akses user --}}
-                    @if(AppHelper::access(['Admin']))
-                        <li class="{{$template->menu == 'desa' ? 'active' : ''}}">
-                            <a href="{{route('admin.desa.index')}}"  >
-                                <i class="fa fa-map"></i> 
-                                <span>Manajemen Desa</span>
-                            </a>
-                        </li>   
-                    @endif
 
                     {{-- //menentukan hak akses user --}}
                     @if(AppHelper::access(['Admin']))
                         <li class="{{$template->menu == 'tempat_wisata' ? 'active' : ''}}">
-                            <a href="{{route('admin.tempat-wisata.index')}}"  >
+                            <a href="{{route('admin.desa-wisata.index')}}"  >
                                 <i class="fa fa-users"></i> 
-                                <span>Tempat Wisata</span>
+                                <span>Desa Wisata</span>
                             </a>
                         </li>   
                     @endif

@@ -13,15 +13,15 @@ class CreateKegiatansTable extends Migration
      */
     public function up()
     {
-        Schema::create('kegiatan', function (Blueprint $table) {
+        Schema::create('atraksi', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('tempat_wisata_id')->unsigned();
-            $table->string('nama_kegiatan');
+            $table->bigInteger('desa_wisata_id')->unsigned();
+            $table->string('nama_atraksi');
             $table->text('deskripsi');
             $table->string('foto');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('tempat_wisata_id')->references('id')->on('tempat_wisata');
+            $table->foreign('desa_wisata_id')->references('id')->on('desa_wisata');
         });
     }
 
@@ -32,6 +32,6 @@ class CreateKegiatansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kegiatan');
+        Schema::dropIfExists('atraksi');
     }
 }
