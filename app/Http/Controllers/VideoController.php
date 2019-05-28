@@ -22,7 +22,7 @@ class VideoController extends Controller
     private function form()
     {
         return [
-            ['label' => 'Url Video', 'name' => 'link']
+            ['label' => 'Video', 'name' => 'video','type' => 'file']
         ];
     }
     /**
@@ -33,7 +33,7 @@ class VideoController extends Controller
     public function index($tempat_wisata_id)
     {
         $template = (object) $this->template;
-        $data = Video::where('tempat_wisata_id',$tempat_wisata_id)->get();
+        $data = Video::where('desa_wisata_id',$tempat_wisata_id)->get();
         return view('admin.video.index',compact('template','data','tempat_wisata_id'));
     }
 
@@ -58,12 +58,12 @@ class VideoController extends Controller
     public function store(Request $request,$tempat_wisata_id)
     {
         $request->validate([
-            'link' => 'required',
+            'video' => 'required|mimes:mp4',
         ]);
         $uploaded = AppHelper::uploader($this->form(),$request);
         Video::create([
-            'file' => $request->link,
-            'tempat_wisata_id' => $tempat_wisata_id
+            'file' => $uploaded['video'],
+            'desa_wisata_id' => $tempat_wisata_id
         ]);
         Alert::make('success','Berhasil simpan data');
         return redirect(route($this->template['route'].'.index',[$tempat_wisata_id]));

@@ -95,7 +95,7 @@ class DesaWisataController extends Controller
         $template = (object)$this->template;
         $data = DesaWisata::findOrFail($id);
         $form = $this->form();
-        return view('admin.master.show',compact('template','data'));
+        return view('admin.master.show',compact('template','data','form'));
     }
 
     /**
@@ -109,7 +109,7 @@ class DesaWisataController extends Controller
         $data = DesaWisata::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.master.edit',compact('template','form','data'));
+        return view('admin.desawisata.edit',compact('template','form','data'));
     }
 
     /**

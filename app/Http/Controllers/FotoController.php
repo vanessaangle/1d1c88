@@ -33,7 +33,7 @@ class FotoController extends Controller
     public function index($tempat_wisata_id)
     {
         $template = (object) $this->template;
-        $data = Foto::where('tempat_wisata_id',$tempat_wisata_id)->get();
+        $data = Foto::where('desa_wisata_id',$tempat_wisata_id)->get();
         return view('admin.foto.index',compact('template','data','tempat_wisata_id'));
     }
 
@@ -61,7 +61,7 @@ class FotoController extends Controller
             'file_foto' => 'required',
         ]);
         $uploaded = AppHelper::uploader($this->form(),$request);
-        $data['tempat_wisata_id'] = $tempat_wisata_id;
+        $data['desa_wisata_id'] = $tempat_wisata_id;
         $data['file'] = $uploaded['file_foto'];
         Foto::create($data);
         Alert::make('success','Berhasil simpan data');
@@ -76,9 +76,7 @@ class FotoController extends Controller
      */
     public function show($tempat_wisata_id,$id)
     {
-        $template = (object)$this->template;
-        $data = Kegiatan::findOrFail($id);
-        return view('admin.kegiatan.show',compact('template','data','tempat_wisata_id'));
+        
     }
 
     /**
@@ -89,10 +87,7 @@ class FotoController extends Controller
      */
     public function edit($tempat,$id)
     {
-        $data = Kegiatan::findOrFail($id);
-        $template = (object)$this->template;
-        $form = $this->form();
-        return view('admin.kegiatan.edit',compact('template','form','data'));
+       
     }
 
     /**
@@ -104,14 +99,7 @@ class FotoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama_desa' => 'required',
-            'status' => 'required',
-        ]);
-        $data = $request->all();
-        Desa::find($id)->update($data);
-        Alert::make('success','Berhasil mengubah data');
-        return redirect(route($this->template['route'].'.index'));
+       
     }
 
     /**

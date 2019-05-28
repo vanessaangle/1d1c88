@@ -14,6 +14,7 @@
                 <li><a href="{{route('admin.dashboard.index')}}"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li class="active">{{$template->title}}</li>
             </ol>
+           
         </section>
 
         <!-- Main content -->
@@ -31,9 +32,12 @@
                     @endif
                     <div class="box box-info">
                         <div class="box-header">
-                            <h3 class="box-title"><i class="{{$template->icon}}"></i> Form Lihat {{$template->title}}</h3>                            
+                            <h3 class="box-title"><i class="{{$template->icon}}"></i> Form Lihat {{$template->title}}</h3> 
+                            <a href="{{url('desa-wisata/'.$data->id.'/video')}}" class="btn btn-primary pull-right" style="margin-right:2px">Video</a>                           
+                            <a href="{{url('desa-wisata/'.$data->id.'/foto')}}" class="btn btn-primary pull-right" style="margin-right:2px">Foto</a>                           
+                            <a href="{{url('desa-wisata/'.$data->id.'/kegiatan')}}" class="btn btn-primary pull-right" style="margin-right:2px">Kegiatan</a>                           
                         </div>
-                        <form action="{{route("$template->route".".update",[$tempat,$data->id])}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{route("$template->route".".update",[$data->id])}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="box-body">  
@@ -56,6 +60,34 @@
 @endsection
 @push('js')
     <!-- page script -->
+     <script>
+        var map, marker;
+         function initMap(){
+            console.log('INIT MAP');
+            var myLatLng = {lat: {{$data->lat}}, lng: {{$data->lng}} };         
+            $('.lat').val(myLatLng.lat);
+            $('.lng').val(myLatLng.lng); 
+            map = new google.maps.Map(document.getElementById('google_map'), {
+                zoom: 12,
+                center: myLatLng
+            });  
+
+            marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                draggable:true,
+                title: 'Lokasi Desa'
+            });
+
+            google.maps.event.addListener(map,'click', function(event){
+                marker.setPosition(event.latLng);
+                console.log(event);
+                $('.lat').val(event.latLng.lat);
+                $('.lng').val(event.latLng.lng);                
+            });
+        }
+    </script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDX5i1N1RR3DSQTIRu0ZbIyTgorg7Rhg_g&callback=initMap"></script>
     <script>
     $(function () {
         $('#datatables').DataTable()
@@ -69,4 +101,5 @@
         })
     })
     </script>
+    <script src="{{asset('admin-lte/bower_components/ckeditor/ckeditor.js')}}"></script>
 @endpush

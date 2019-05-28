@@ -27,6 +27,9 @@
                             <a href="{{route("$template->route".'.create',[$tempat_wisata_id])}}" class="btn btn-primary pull-right">
                                 <i class="fa fa-pencil"></i> Tambah {{$template->title}}
                             </a>
+                            <a href="{{route("admin.desa-wisata.edit",[$tempat_wisata_id])}}" class="btn btn-default pull-right" style="margin-right:10px">
+                                <i class="fa fa-arrow-left"></i> Kembali
+                            </a>
                         </div>
                         <div class="box-body">
                             <table class="table" id="datatables">
@@ -41,7 +44,7 @@
                                     @foreach($data as $key => $row)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$row->nama_kegiatan}}</td>
+                                            <td>{{$row->nama_atraksi}}</td>
                                             <td>
                                                 <a href="{{route("$template->route".'.edit',[$tempat_wisata_id,$row->id])}}" class="btn btn-success btn-sm">Ubah</a>
                                                 <a href="{{route("$template->route".'.show',[$tempat_wisata_id,$row->id])}}" class="btn btn-info btn-sm">Lihat</a>

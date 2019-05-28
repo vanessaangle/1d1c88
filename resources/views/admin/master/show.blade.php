@@ -55,6 +55,12 @@
                                                     <a href="{{asset($data->{$item['name']})}}" target="_blank">{{$data->{$item['name']} }}</a>
                                                 </td>
                                             </tr>
+                                            @elseif(array_key_exists('type',$item) && $item['type'] == 'map')
+                                            <tr>
+                                                <td>{{$item['label']}}</td>
+                                                <td>:</td>
+                                                <td><div id="google_map" style="height:400px;"></div></td>
+                                            </tr>
                                             @else
                                             <tr>
                                                 <td>{{$item['label']}}</td>
@@ -84,9 +90,7 @@
         var map, marker;
          function initMap(){
             console.log('INIT MAP');
-            var myLatLng = {lat: {{$data->lat}}, lng: {{$data->lng}} };         
-            $('.lat').val(myLatLng.lat);
-            $('.lng').val(myLatLng.lng); 
+            var myLatLng = {lat: {{$data->lat}}, lng: {{$data->lng}} };          
             map = new google.maps.Map(document.getElementById('google_map'), {
                 zoom: 16,
                 center: myLatLng
@@ -102,17 +106,4 @@
         }
     </script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDX5i1N1RR3DSQTIRu0ZbIyTgorg7Rhg_g&callback=initMap"></script>
-    <script>
-    $(function () {
-        $('#datatables').DataTable()
-        $('#full-datatables').DataTable({
-        'paging'      : true,
-        'lengthChange': false,
-        'searching'   : false,
-        'ordering'    : true,
-        'info'        : true,
-        'autoWidth'   : false
-        })
-    })
-    </script>
 @endpush
