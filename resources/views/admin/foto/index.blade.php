@@ -27,6 +27,9 @@
                             <a href="{{route("$template->route".'.create',[$tempat_wisata_id])}}" class="btn btn-primary pull-right">
                                 <i class="fa fa-pencil"></i> Tambah {{$template->title}}
                             </a>
+                            <a href="{{route("admin.desa-wisata.edit",[$tempat_wisata_id])}}" class="btn btn-default pull-right" style="margin-right:10px">
+                                    <i class="fa fa-arrow-left"></i> Kembali
+                                </a>
                         </div>
                         <div class="box-body">
                             <table class="table" id="datatables">

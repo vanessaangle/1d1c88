@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Desa;
 use Carbon\Carbon;
 use App\Helpers\Alert;
-use App\Kegiatan;
+use App\Atraksi as Kegiatan;
 use App\Helpers\AppHelper;
 
 class KegiatanController extends Controller
@@ -22,9 +22,9 @@ class KegiatanController extends Controller
     private function form()
     {
         return [
-            ['label' => 'Nama Kegiatan', 'name' => 'nama_kegiatan'],
+            ['label' => 'Nama Atraksi', 'name' => 'nama_atraksi'],
             ['label' => 'Deskripsi', 'name' => 'deskripsi', 'type' => 'ckeditor'],
-            ['label' => 'Foto' , 'name' => 'foto','type' => 'file']
+            ['label' => 'Foto' , 'name' => 'foto','type' => 'file','required' => ['create']]
         ];
     }
     /**
@@ -35,7 +35,7 @@ class KegiatanController extends Controller
     public function index($tempat_wisata_id)
     {
         $template = (object) $this->template;
-        $data = Kegiatan::where('tempat_wisata_id',$tempat_wisata_id)->get();
+        $data = Kegiatan::where('desa_wisata_id',$tempat_wisata_id)->get();
         return view('admin.kegiatan.index',compact('template','data','tempat_wisata_id'));
     }
 
@@ -60,13 +60,13 @@ class KegiatanController extends Controller
     public function store(Request $request,$tempat_wisata_id)
     {
         $request->validate([
-            'nama_kegiatan' => 'required',
+            'nama_atraksi' => 'required',
             'deskripsi' => 'required',
             'foto' => 'required'
         ]);
         $uploaded = AppHelper::uploader($this->form(),$request);
         $data = $request->all();
-        $data['tempat_wisata_id'] = $tempat_wisata_id;
+        $data['desa_wisata_id'] = $tempat_wisata_id;
         $data['foto'] = $uploaded['foto'];
         Kegiatan::create($data);
         Alert::make('success','Berhasil simpan data');
@@ -97,7 +97,7 @@ class KegiatanController extends Controller
         $data = Kegiatan::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.kegiatan.edit',compact('template','form','data'));
+        return view('admin.kegiatan.edit',compact('template','form','data','tempat'));
     }
 
     /**
@@ -107,16 +107,22 @@ class KegiatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$tempat,$id)
     {
         $request->validate([
-            'nama_desa' => 'required',
-            'status' => 'required',
+            'nama_atraksi' => 'required',
+            'deskripsi' => 'required',
         ]);
         $data = $request->all();
-        Desa::find($id)->update($data);
+        if($request->hasFile('foto')){
+            $uploaded = AppHelper::uploader($this->form(),$request);
+            $data['foto'] = $uploaded['foto'];
+        }else{
+            unset($data['foto']);
+        }
+        Kegiatan::find($id)->update($data);
         Alert::make('success','Berhasil mengubah data');
-        return redirect(route($this->template['route'].'.index'));
+        return redirect(route($this->template['route'].'.index',[$tempat]));
     }
 
     /**

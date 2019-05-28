@@ -47,7 +47,7 @@
                                         <tr>
                                             <td>Nama</td>
                                             <td>:</td>
-                                            <td>{{$data->nama_kegiatan}}</td>
+                                            <td>{{$data->nama_atraksi}}</td>
                                         </tr>
                                         <tr>
                                             <td>Deksripsi</td>

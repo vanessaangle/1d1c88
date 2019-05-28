@@ -14,14 +14,17 @@ class UserController extends Controller
         'route' => 'admin.user',
         'menu' => 'user',
         'icon' => 'fa fa-users',
-        'theme' => 'skin-red'
+        'theme' => 'skin-red',
+        'config' => [
+            'index.delete.is_show' => false,
+        ]
     ];
 
     private function form()
     {
         $status = [
-            ['value' => 1,'name' => 'Aktif'],
-            ['value' => 0,'name' => 'Tidak Aktif']
+            ['value' => 'Aktif','name' => 'Aktif'],
+            ['value' => 'Tidak Aktif','name' => 'Tidak Aktif']
         ];
 
         $role = [
@@ -29,14 +32,14 @@ class UserController extends Controller
         ];
 
         return [
-            ['label' => 'Nama Pengguna', 'name' => 'nama'],
-            ['label' => 'Alamat', 'name' => 'alamat'],
-            ['label' => 'Tanggal Lahir','name' => 'tgl_lahir', 'type' => 'datepicker'],
-            ['label' => 'Tempat Lahir','name' => 'tempat_lahir'],
-            ['label' => 'Username','name' => 'username'],
+            ['label' => 'Nama Pengguna', 'name' => 'nama','view_index' => true],
+            ['label' => 'Alamat', 'name' => 'alamat','view_index' => true],
+            ['label' => 'Tanggal Lahir','name' => 'tgl_lahir', 'type' => 'datepicker','view_index' => true],
+            ['label' => 'Tempat Lahir','name' => 'tempat_lahir','view_index' => true],
+            ['label' => 'Username','name' => 'username','view_index' => true],
             ['label' => 'Password','name' => 'password','type' => 'password'],
-            ['label' => 'Status','name' => 'status', 'type' => 'select','option' => $status],
-            ['label' => 'Role','name' => 'role','type' => 'select','option' => $role],
+            ['label' => 'Status','name' => 'status', 'type' => 'select','option' => $status,'view_index' => true],
+            ['label' => 'Role','name' => 'role','type' => 'select','option' => $role,'view_index' => true],
         ];
     }
 
@@ -49,7 +52,8 @@ class UserController extends Controller
     {
         $template = (object) $this->template;
         $data = User::all();
-        return view('admin.user.index',compact('template','data'));
+        $form = $this->form();
+        return view('admin.master.index',compact('template','data','form'));
     }
 
     /**
@@ -61,7 +65,7 @@ class UserController extends Controller
     {
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.user.create',compact('template','form'));
+        return view('admin.master.create',compact('template','form'));
     }
 
     /**
@@ -79,7 +83,8 @@ class UserController extends Controller
             'alamat' => 'required',
             'tgl_lahir' => 'required',
             'tempat_lahir' => 'required',
-            'role' => 'required'
+            'role' => 'required',
+            'status' => 'required'
         ]);
         $data = $request->all();
         $data['password'] = bcrypt($request->password);
@@ -99,7 +104,8 @@ class UserController extends Controller
     {
         $template = (object)$this->template;
         $data = User::findOrFail($id);
-        return view('admin.user.show',compact('template','data'));
+        $form = $this->form();
+        return view('admin.master.show',compact('template','data','form'));
     }
 
     /**
@@ -113,7 +119,7 @@ class UserController extends Controller
         $data = User::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.user.edit',compact('template','form','data'));
+        return view('admin.master.edit',compact('template','form','data'));
     }
 
     /**
@@ -133,7 +139,7 @@ class UserController extends Controller
         if($request ->password == ''){
              unset($data['password']);
         }else{
-              $data['password'] = bcrypt($request->password);
+            $data['password'] = bcrypt($request->password);
         }
         User::find($id)->update($data);
         Alert::make('success','Berhasil mengubah data');

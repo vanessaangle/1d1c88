@@ -31,13 +31,14 @@
                     @endif
                     <div class="box box-info">
                         <div class="box-header">
-                            <h3 class="box-title"><i class="{{$template->icon}}"></i> Form Tambah {{$template->title}}</h3>                            
+                            <h3 class="box-title"><i class="{{$template->icon}}"></i> Form Lihat {{$template->title}}</h3>                            
                         </div>
-                        <form action="{{route("$template->route".".store")}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{route("$template->route".".update",[$data->id])}}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <div class="box-body">                            
+                            @method('PUT')
+                            <div class="box-body">  
                                 @foreach($form as $value)
-                                    {!!Render::form($value)!!}
+                                    {!!Render::form($value,$data)!!}
                                 @endforeach
                             </div>
                             <div class="box-footer">
@@ -55,24 +56,12 @@
 @endsection
 @push('js')
     <!-- page script -->
-    <script>
-    $(function () {
-        $('#datatables').DataTable()
-        $('#full-datatables').DataTable({
-        'paging'      : true,
-        'lengthChange': false,
-        'searching'   : false,
-        'ordering'    : true,
-        'info'        : true,
-        'autoWidth'   : false
-        })
-    })
-    </script>
-    <script>
+    <script src="{{asset('admin-lte/bower_components/ckeditor/ckeditor.js')}}"></script>
+     <script>
         var map, marker;
          function initMap(){
             console.log('INIT MAP');
-            var myLatLng = {lat: -8.604342, lng: 115.188044};         
+            var myLatLng = {lat: {{$data->lat}}, lng: {{$data->lng}} };         
             $('.lat').val(myLatLng.lat);
             $('.lng').val(myLatLng.lng); 
             map = new google.maps.Map(document.getElementById('google_map'), {
@@ -96,4 +85,17 @@
         }
     </script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDX5i1N1RR3DSQTIRu0ZbIyTgorg7Rhg_g&callback=initMap"></script>
+    <script>
+    $(function () {
+        $('#datatables').DataTable()
+        $('#full-datatables').DataTable({
+        'paging'      : true,
+        'lengthChange': false,
+        'searching'   : false,
+        'ordering'    : true,
+        'info'        : true,
+        'autoWidth'   : false
+        })
+    })
+    </script>
 @endpush

@@ -15,11 +15,11 @@ class CreateFotosTable extends Migration
     {
         Schema::create('foto', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('tempat_wisata_id')->unsigned();
+            $table->bigInteger('desa_wisata_id')->unsigned();
             $table->text('file');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('tempat_wisata_id')->references('id')->on('tempat_wisata');
+            $table->foreign('desa_wisata_id')->references('id')->on('desa_wisata');
         });
     }
 

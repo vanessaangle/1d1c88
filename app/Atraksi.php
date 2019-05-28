@@ -5,15 +5,15 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Kegiatan extends Model
+class Atraksi extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'kegiatan';
+    protected $table = 'atraksi';
 
     protected $guarded = [];
 
-    public function tempat_wisata()
+    public function desa_wisata()
     {
         return $this->belongsTo(TempatWisata::class);
     }

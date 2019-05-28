@@ -33,7 +33,7 @@
                         <div class="box-header">
                             <h3 class="box-title"><i class="{{$template->icon}}"></i> Form Lihat {{$template->title}}</h3>                            
                         </div>
-                        <form action="{{route("$template->route".".update",[$data->id])}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{route("$template->route".".update",[$tempat,$data->id])}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="box-body">  

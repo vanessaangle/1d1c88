@@ -13,21 +13,20 @@ class CreateTempatWisatasTable extends Migration
      */
     public function up()
     {
-        Schema::create('tempat_wisata', function (Blueprint $table) {
+        Schema::create('desa_wisata', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('desa_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->string('nama_wisata');
             $table->string('alamat_wisata');
-            $table->text('sejarah_wisata');
+            $table->text('sejarah_desa');
             $table->text('demografi');
             $table->text('potensi');
+            $table->text('thumbnail');
             $table->text('lat');
             $table->text('lng');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('desa_id')->references('id')->on('desa');
             $table->foreign('user_id')->references('id')->on('user');
         });
     }
@@ -39,6 +38,6 @@ class CreateTempatWisatasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tempat_wisata');
+        Schema::dropIfExists('desa_wisata');
     }
 }

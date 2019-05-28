@@ -19,7 +19,8 @@ class UserTableSeeder extends Seeder
             'alamat' => 'Jalan Puputan Renon No 86 Denpasar',
             'tgl_lahir' => '1995-09-16',
             'tempat_lahir' => 'Renon',
-            'role' => 'Admin'
+            'role' => 'Admin',
+            'status' => 'Aktif'
         ]);
     }
 }
