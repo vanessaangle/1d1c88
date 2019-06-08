@@ -135,6 +135,15 @@
                         </li>   
                     @endif
 
+                    @if(AppHelper::access(['Admin']))
+                        <li class="{{$template->menu == 'event' ? 'active' : ''}}">
+                            <a href="{{route('admin.event.index')}}"  >
+                                <i class="fa fa-calendar"></i> 
+                                <span>Event</span>
+                            </a>
+                        </li>   
+                    @endif
+
                     {{-- @if(AppHelper::access(['Operator','Admin']))
                         <li class="{{$template->menu == 'web' ? 'active' : ''}}">
                             <a href="{{route('web.index')}}"  >
