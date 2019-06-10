@@ -31,17 +31,13 @@
                     @endif
                     <div class="box box-info">
                         <div class="box-header">
-                            <h3 class="box-title"><i class="{{$template->icon}}"></i> Form Lihat {{$template->title}}</h3>        
-                            <a href="{{route('admin.file.index',[$tempat,$id])}}" class="btn btn-primary pull-right">
-                                File
-                            </a>                   
+                            <h3 class="box-title"><i class="{{$template->icon}}"></i> Form Tambah {{$template->title}}</h3>                            
                         </div>
-                        <form action="{{route("$template->route".".update",[$tempat,$data->id])}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{route("$template->route".".store",[$desa_wisata_id,$atraksi_id])}}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
-                            <div class="box-body">  
+                            <div class="box-body">                            
                                 @foreach($form as $value)
-                                    {!!Render::form($value,$data)!!}
+                                    {!!Render::form($value)!!}
                                 @endforeach
                             </div>
                             <div class="box-footer">
@@ -59,6 +55,7 @@
 @endsection
 @push('js')
     <!-- page script -->
+    <script src="{{asset('admin-lte/bower_components/ckeditor/ckeditor.js')}}"></script>
     <script>
     $(function () {
         $('#datatables').DataTable()

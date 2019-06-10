@@ -97,7 +97,7 @@ class KegiatanController extends Controller
         $data = Kegiatan::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.kegiatan.edit',compact('template','form','data','tempat'));
+        return view('admin.kegiatan.edit',compact('template','form','data','tempat','id'));
     }
 
     /**

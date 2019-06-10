@@ -36,6 +36,14 @@ Route::middleware(['auth'])->group(function(){
     Route::get('tempat_wisata/{kegiatan_id}/kegiatan/{id}','KegiatanController@show')->name('admin.tempat_wisata.kegiatan.show');
     Route::delete('tempat_wisata/{kegiatan_id}/kegiatan/{id}','KegiatanController@destroy')->name('admin.tempat_wisata.kegiatan.destroy');
 
+    Route::get('desa-wisata/{desa_id}/kegiatan/{atraksi_id}/file','AtraksiFileController@index')->name('admin.file.index');
+    Route::get('desa-wisata/{desa_id}/kegiatan/{atraksi_id}/file/create','AtraksiFileController@create')->name('admin.file.create');
+    Route::get('desa-wisata/{desa_id}/kegiatan/{atraksi_id}/file/{id}','AtraksiFileContrller@show')->name('admin.file.show');
+    Route::get('desa-wisata/{desa_id}/kegiatan/{atraksi_id}/file/{id}/edit','AtraksiFileController@edit')->name('admin.file.edit');
+    Route::post('desa-wisata/{desa_id}/kegiatan/{atraksi_id}/file','AtraksiFileController@store')->name('admin.file.store');
+    Route::put('desa-wisata/{desa_id}/kegiatan/{atraksi_id}/file/{id}','AtraksiFileController@update')->name('admin.file.update');
+    Route::delete('desa-wisata/{desa_id}/kegiatan/{atraksi_id}/file/{id}','AtraksiFileController@destroy')->name('admin.file.destroy');
+
     Route::get('desa-wisata/{kegiatan_id}/foto','FotoController@index')->name('admin.tempat_wisata.foto.index');
     Route::get('desa-wisata/{kegiatan_id}/foto/create','FotoController@create')->name('admin.tempat_wisata.foto.create');
     Route::get('desa-wisata/{kegiatan_id}/foto/{id}/edit','FotoController@index')->name('admin.tempat_wisata.foto.edit');
