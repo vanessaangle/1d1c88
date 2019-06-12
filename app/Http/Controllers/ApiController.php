@@ -13,9 +13,8 @@ class ApiController extends Controller
     public function getWisata(Request $request, $cari = null)
     {
         //$cari = $request->cari;
-        $desa_wisata = Desa::select('*', 'tempat_wisata.id as tempat_wisata_id')
-        ->join('tempat_wisata','tempat_wisata.desa_id','=','desa.id')
-        ->where('tempat_wisata.nama_wisata','like',"%$cari%")->get();
+        $desa_wisata = DesaWisata::select('*')
+        ->where('desa_wisata.nama_wisata','like',"%$cari%")->get();
         return response()->json($desa_wisata);
     }
 
@@ -31,20 +30,27 @@ class ApiController extends Controller
         ]);
     } */
 
-    public function getKegiatan(Request $request, $filter = null){
-        $kegiatan = Kegiatan::select('*')
-        ->join('tempat_wisata','tempat_wisata.id','=','kegiatan.tempat_wisata_id')
-        ->where('kegiatan.nama_kegiatan','like',"%$filter%")->get();
+    public function getAtraksi(Request $request, $filter = null){
+        $kegiatan = Atraksi::select('*')
+        ->join('desa_wisata','desa_wisata.id','=','atraksi.desa_wisata_id')
+        ->where('atraksi.nama_atraksi','like',"%$filter%")->get();
         return response()->json($kegiatan);
     }
 
     public function getFotoWisata(Request $request, $id_wisata){
-        $foto = Foto::where('tempat_wisata_id', $id_wisata)->get();
+        $foto = Foto::where('desa_wisata_id', $id_wisata)->get();
         return response()->json($foto);
     }
 
     public function getVideoWisata(Request $request, $id_wisata){
-        $video = Video::where('tempat_wisata_id', $id_wisata)->get();
+        $video = Video::where('desa_wisata_id', $id_wisata)->get();
         return response()->json($video);
+    }
+
+    public function getKegiatan(Request $request, $id_wisata){
+        $atraksi = Atraksi::select('*')
+        ->join('desa_wisata','desa_wisata.id','=','atraksi.desa_wisata_id')
+        ->where('atraksi.desa_wisata_id', $id_wisata)->get();
+        return response()->json($atraksi);
     }
 }
