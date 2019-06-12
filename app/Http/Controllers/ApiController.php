@@ -46,4 +46,11 @@ class ApiController extends Controller
         $video = Video::where('desa_wisata_id', $id_wisata)->get();
         return response()->json($video);
     }
+
+    public function getKegiatan(Request $request, $id_wisata){
+        $atraksi = Atraksi::select('*')
+        ->join('desa_wisata','desa_wisata.id','=','atraksi.desa_wisata_id')
+        ->where('atraksi.desa_wisata_id', $id_wisata)->get();
+        return response()->json($atraksi);
+    }
 }
