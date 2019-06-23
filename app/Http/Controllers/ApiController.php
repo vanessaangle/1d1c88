@@ -3,32 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Desa;
+use App\DesaWisata;
+use App\Atraksi;
 use App\Kegiatan;
 use App\Foto;
 use App\Video;
+use App\Event;
 
 class ApiController extends Controller
 {
     public function getWisata(Request $request, $cari = null)
     {
-        //$cari = $request->cari;
         $desa_wisata = DesaWisata::select('*')
         ->where('desa_wisata.nama_wisata','like',"%$cari%")->get();
         return response()->json($desa_wisata);
     }
-
-    /* public function getWisata()
-    {
-        return response()->json([
-            'wisata' => Desa::with([
-                'tempat_wisata.kegiatan',
-                'tempat_wisata.foto',
-                'tempat_wisata.video',
-            ])
-            ->get()
-        ]);
-    } */
 
     public function getAtraksi(Request $request, $filter = null){
         $kegiatan = Atraksi::select('*')
@@ -52,5 +41,10 @@ class ApiController extends Controller
         ->join('desa_wisata','desa_wisata.id','=','atraksi.desa_wisata_id')
         ->where('atraksi.desa_wisata_id', $id_wisata)->get();
         return response()->json($atraksi);
+    }
+
+    public function getEvent(Request $request){
+        $foto = Event::all();
+        return response()->json($foto);
     }
 }
