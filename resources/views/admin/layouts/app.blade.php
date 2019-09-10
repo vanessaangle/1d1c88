@@ -144,14 +144,14 @@
                         </li>   
                     @endif
 
-                    {{-- @if(AppHelper::access(['Operator','Admin']))
-                        <li class="{{$template->menu == 'web' ? 'active' : ''}}">
-                            <a href="{{route('web.index')}}"  >
-                                <i class="fa fa-globe"></i> 
-                                <span>Website</span>
+                    @if(AppHelper::access(['Operator','Admin']))
+                        <li class="{{$template->menu == 'calendar' ? 'active' : ''}}">
+                            <a href="{{route('admin.calendar.index')}}"  >
+                                <i class="fa fa-calendar"></i> 
+                                <span>Kalendar Event</span>
                             </a>
                         </li>   
-                    @endif --}}
+                    @endif
                     
                     {{-- //menentukan hak akses user --}}
                     
