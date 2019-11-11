@@ -135,7 +135,7 @@
                         </li>   
                     @endif
 
-                    @if(AppHelper::access(['Admin']))
+                    @if(AppHelper::access([]))
                         <li class="{{$template->menu == 'event' ? 'active' : ''}}">
                             <a href="{{route('admin.event.index')}}"  >
                                 <i class="fa fa-calendar"></i> 
@@ -148,7 +148,7 @@
                         <li class="{{$template->menu == 'calendar' ? 'active' : ''}}">
                             <a href="{{route('admin.calendar.index')}}"  >
                                 <i class="fa fa-calendar"></i> 
-                                <span>Kalendar Event</span>
+                                <span>Event</span>
                             </a>
                         </li>   
                     @endif
