@@ -49,8 +49,10 @@ class ApiController extends Controller
         return response()->json($foto);
     }
 
-    public function getKalendar(Request $request){
-        $foto = CalendarEvent::all();
-        return response()->json($foto);
+
+    public function getKalender(Request $request, $cari = null){
+        $kalender = CalendarEvent::select('*')
+        ->where('calendar_events.judul','like',"%$cari%")->get();
+        return response()->json($kalender);
     }
 }
