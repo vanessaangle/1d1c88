@@ -9,6 +9,7 @@ use App\Kegiatan;
 use App\Foto;
 use App\Video;
 use App\Event;
+use App\CalendarEvent;
 
 class ApiController extends Controller
 {
@@ -45,6 +46,11 @@ class ApiController extends Controller
 
     public function getEvent(Request $request){
         $foto = Event::all();
+        return response()->json($foto);
+    }
+
+    public function getKalendar(Request $request){
+        $foto = CalendarEvent::all();
         return response()->json($foto);
     }
 }
