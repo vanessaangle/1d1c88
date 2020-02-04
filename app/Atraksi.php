@@ -9,12 +9,17 @@ class Atraksi extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'atraksi';
+    protected $table = 'kegiatan';
 
     protected $guarded = [];
 
     public function desa_wisata()
     {
-        return $this->belongsTo(TempatWisata::class);
+        return $this->belongsTo(DesaWisata::class);
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class,'kategori_id');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCalendarEventsTable extends Migration
+class CreateKategorisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateCalendarEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('event', function (Blueprint $table) {
+        Schema::create('kategori', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('judul');
-            $table->text('deskripsi');
-            $table->string('foto');
-            $table->string('status');
+            $table->string('nama_kategori');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateCalendarEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calendar_events');
+        Schema::dropIfExists('kategoris');
     }
 }

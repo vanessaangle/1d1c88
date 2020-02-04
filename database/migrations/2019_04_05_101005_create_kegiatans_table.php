@@ -13,15 +13,17 @@ class CreateKegiatansTable extends Migration
      */
     public function up()
     {
-        Schema::create('atraksi', function (Blueprint $table) {
+        Schema::create('kegiatan', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('desa_wisata_id')->unsigned();
-            $table->string('nama_atraksi');
+            $table->bigInteger('kategori_id')->unsigned();
+            $table->string('nama_kegiatan');
             $table->text('deskripsi');
             $table->string('foto');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('desa_wisata_id')->references('id')->on('desa_wisata');
+            $table->foreign('kategori_id')->references('id')->on('kategori');
         });
     }
 

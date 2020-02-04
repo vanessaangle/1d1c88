@@ -2,52 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\CalendarEvent;
 use Illuminate\Http\Request;
-use App\Helpers\AppHelper;
+use App\Kategori;
+use App\Desa;
+use Carbon\Carbon;
 use App\Helpers\Alert;
+use App\Helpers\AppHelper;
 
-class CalendarEventController extends Controller
+class KategoriController extends Controller
 {
     private $template = [
-        'title' => 'Event',
-        'route' => 'admin.calendar',
-        'menu' => 'calendar',
-        'icon' => 'fa fa-calendar',
+        'title' => 'Kategori',
+        'route' => 'admin.kategori',
+        'menu' => 'kategori',
+        'icon' => 'fa fa-tags',
         'theme' => 'skin-red'
     ];
 
     private function form()
     {
-        $status = [
-            ['value' => 'Sudah Berjalan', 'name' => 'Sudah Berjalan'],
-            ['value' => 'Sedang Berjalan', 'name' => 'Sedang Berjalan'],
-            ['value' => 'Akan Berjalan', 'name' => 'Akan Berjalan'],
-        ];
         return [
-            [
-                'label' => 'Judul',
-                'name' => 'judul',
-                'view_index' => true
-            ],
-            [
-                'label' => 'Deskripsi',
-                'name' => 'deskripsi',
-                'type' => 'ckeditor',
-            ],
-            [
-                'label' => 'Foto',
-                'name' => 'foto',
-                'type' => 'file',
-                'required' => ['create']
-            ],
-            [
-                'label' => 'Status',
-                'name' => 'status',
-                'type' => 'select',
-                'option' => $status,
-                'view_index' => true
-            ]
+            ['label' => 'Nama Kategori', 'name' => 'nama_kategori','view_index' => true],
         ];
     }
     /**
@@ -58,7 +33,7 @@ class CalendarEventController extends Controller
     public function index()
     {
         $template = (object) $this->template;
-        $data = CalendarEvent::all();
+        $data = Kategori::all();
         $form = $this->form();
         return view('admin.master.index',compact('template','data','form'));
     }
@@ -83,15 +58,9 @@ class CalendarEventController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'judul' => 'required',
-            'deskripsi' => 'required',
-            'foto' => 'required|mimes:png,jpg,jpeg'
-        ]);
+        
         $data = $request->all();
-        $uploader = AppHelper::uploader($this->form(),$request);
-        $data['foto'] =  $uploader['foto'];
-        CalendarEvent::create($data);
+        Kategori::create($data);
         Alert::make('success','Berhasil  simpan data');
         return redirect(route($this->template['route'].'.index'));
     }
@@ -105,7 +74,7 @@ class CalendarEventController extends Controller
     public function show($id)
     {
         $template = (object)$this->template;
-        $data = CalendarEvent::findOrFail($id);
+        $data = Kategori::findOrFail($id);
         $form = $this->form();
         return view('admin.master.show',compact('template','data','form'));
     }
@@ -118,10 +87,10 @@ class CalendarEventController extends Controller
      */
     public function edit($id)
     {
-        $data = CalendarEvent::findOrFail($id);
+        $data = Kategori::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.desawisata.edit',compact('template','form','data'));
+        return view('admin.Kategori.edit',compact('template','form','data'));
     }
 
     /**
@@ -133,18 +102,9 @@ class CalendarEventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'judul' => 'required',
-            'deskripsi' => 'required'
-        ]);
-        $event = CalendarEvent::find($id);
         $data = $request->all();
-        $data['foto'] = $event->foto;
-        if($request->hasFile('foto')){
-            $uploader = AppHelper::uploader($this->form(),$request);
-            $data['foto'] = $uploader['foto'];
-        }
-        $event->update($data);
+        
+        Kategori::find($id)->update($data);
         Alert::make('success','Berhasil mengubah data');
         return redirect(route($this->template['route'].'.index'));
     }
@@ -157,7 +117,7 @@ class CalendarEventController extends Controller
      */
     public function destroy($id)
     {
-        CalendarEvent::destroy($id);
+        Kategori::destroy($id);
         Alert::make('success','Berhasil menghapus data');
         return back();
     }

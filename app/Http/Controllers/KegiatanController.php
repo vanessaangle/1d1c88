@@ -7,6 +7,7 @@ use App\Desa;
 use Carbon\Carbon;
 use App\Helpers\Alert;
 use App\Atraksi as Kegiatan;
+use App\Kategori;
 use App\Helpers\AppHelper;
 
 class KegiatanController extends Controller
@@ -21,8 +22,10 @@ class KegiatanController extends Controller
 
     private function form()
     {
+        $kategori = Kategori::select('id as value','nama_kategori as name')->get();
         return [
-            ['label' => 'Nama Atraksi', 'name' => 'nama_atraksi'],
+            ['label' => 'Nama kegiatan', 'name' => 'nama_kegiatan'],
+            ['label' => 'Kategori', 'name' => 'kategori_id','type' => 'select','option' => $kategori],
             ['label' => 'Deskripsi', 'name' => 'deskripsi', 'type' => 'ckeditor'],
             ['label' => 'Foto' , 'name' => 'foto','type' => 'file','required' => ['create']]
         ];
@@ -60,10 +63,11 @@ class KegiatanController extends Controller
     public function store(Request $request,$tempat_wisata_id)
     {
         $request->validate([
-            'nama_atraksi' => 'required',
+            'nama_kegiatan' => 'required',
             'deskripsi' => 'required',
             'foto' => 'required'
         ]);
+        
         $uploaded = AppHelper::uploader($this->form(),$request);
         $data = $request->all();
         $data['desa_wisata_id'] = $tempat_wisata_id;
@@ -110,7 +114,7 @@ class KegiatanController extends Controller
     public function update(Request $request,$tempat,$id)
     {
         $request->validate([
-            'nama_atraksi' => 'required',
+            'nama_kegiatan' => 'required',
             'deskripsi' => 'required',
         ]);
         $data = $request->all();

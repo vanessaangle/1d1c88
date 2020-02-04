@@ -13,15 +13,15 @@ class CreateAtraksiFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('atraksi_files', function (Blueprint $table) {
+        Schema::create('kegiatan_files', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('atraksi_id')->unsigned();
+            $table->bigInteger('kegiatan_id')->unsigned();
             $table->string('tipe');
             $table->text('file');
             $table->string('judul')->nullable();
             $table->timestamps();
 
-            $table->foreign('atraksi_id')->references('id')->on('atraksi');
+            $table->foreign('kegiatan_id')->references('id')->on('kegiatan');
         });
     }
 

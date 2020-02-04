@@ -135,6 +135,16 @@
                         </li>   
                     @endif
 
+                    {{-- //menentukan hak akses user --}}
+                    @if(AppHelper::access(['Admin']))
+                        <li class="{{$template->menu == 'kategori' ? 'active' : ''}}">
+                            <a href="{{route('admin.kategori.index')}}"  >
+                                <i class="fa fa-tags"></i> 
+                                <span>Kategori</span>
+                            </a>
+                        </li>   
+                    @endif
+
 
                     @if(AppHelper::access(['Operator','Admin']))
                         <li class="{{$template->menu == 'calendar' ? 'active' : ''}}">

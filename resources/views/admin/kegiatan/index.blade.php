@@ -37,6 +37,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Kegiatan</th>
+                                        <th>Kategori</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -44,7 +45,8 @@
                                     @foreach($data as $key => $row)
                                         <tr>
                                             <td>{{$key+1}}</td>
-                                            <td>{{$row->nama_atraksi}}</td>
+                                            <td>{{$row->nama_kegiatan}}</td>
+                                            <td>{{$row->kategori->nama_kategori}}</td>
                                             <td>
                                                 <a href="{{route("$template->route".'.edit',[$tempat_wisata_id,$row->id])}}" class="btn btn-success btn-sm">Ubah</a>
                                                 <a href="{{route("$template->route".'.show',[$tempat_wisata_id,$row->id])}}" class="btn btn-info btn-sm">Lihat</a>
