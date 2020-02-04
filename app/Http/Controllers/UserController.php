@@ -10,7 +10,7 @@ use App\Helpers\Alert;
 class UserController extends Controller
 {
     private $template = [
-        'title' => 'User',
+        'title' => 'Manajemen User',
         'route' => 'admin.user',
         'menu' => 'user',
         'icon' => 'fa fa-users',

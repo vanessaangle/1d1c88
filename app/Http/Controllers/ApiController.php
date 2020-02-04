@@ -52,7 +52,7 @@ class ApiController extends Controller
 
     public function getKalender(Request $request, $cari = null){
         $kalender = CalendarEvent::select('*')
-        ->where('calendar_events.judul','like',"%$cari%")->get();
+        ->where('judul','like',"%$cari%")->get();
         return response()->json($kalender);
     }
 }

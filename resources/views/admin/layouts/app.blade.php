@@ -135,14 +135,6 @@
                         </li>   
                     @endif
 
-                    @if(AppHelper::access([]))
-                        <li class="{{$template->menu == 'event' ? 'active' : ''}}">
-                            <a href="{{route('admin.event.index')}}"  >
-                                <i class="fa fa-calendar"></i> 
-                                <span>Event</span>
-                            </a>
-                        </li>   
-                    @endif
 
                     @if(AppHelper::access(['Operator','Admin']))
                         <li class="{{$template->menu == 'calendar' ? 'active' : ''}}">
@@ -152,10 +144,7 @@
                             </a>
                         </li>   
                     @endif
-                    
-                    {{-- //menentukan hak akses user --}}
-                    
-                    
+                 
                 </ul>
             </section>
             <!-- /.sidebar -->

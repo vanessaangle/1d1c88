@@ -10,7 +10,7 @@ use App\Helpers\Alert;
 class CalendarEventController extends Controller
 {
     private $template = [
-        'title' => 'Calendar Event',
+        'title' => 'Event',
         'route' => 'admin.calendar',
         'menu' => 'calendar',
         'icon' => 'fa fa-calendar',
