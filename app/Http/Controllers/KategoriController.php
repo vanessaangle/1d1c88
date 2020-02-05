@@ -90,7 +90,7 @@ class KategoriController extends Controller
         $data = Kategori::findOrFail($id);
         $template = (object)$this->template;
         $form = $this->form();
-        return view('admin.Kategori.edit',compact('template','form','data'));
+        return view('admin.master.edit',compact('template','form','data'));
     }
 
     /**
