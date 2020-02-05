@@ -8,6 +8,7 @@ use App\Atraksi;
 use App\Kegiatan;
 use App\Foto;
 use App\Video;
+use App\Kategori;
 use App\Event;
 use App\CalendarEvent;
 
@@ -20,13 +21,6 @@ class ApiController extends Controller
         return response()->json($desa_wisata);
     }
 
-    public function getAtraksi(Request $request, $filter = null){
-        $kegiatan = Atraksi::select('*')
-        ->join('desa_wisata','desa_wisata.id','=','atraksi.desa_wisata_id')
-        ->where('atraksi.nama_atraksi','like',"%$filter%")->get();
-        return response()->json($kegiatan);
-    }
-
     public function getFotoWisata(Request $request, $id_wisata){
         $foto = Foto::where('desa_wisata_id', $id_wisata)->get();
         return response()->json($foto);
@@ -37,22 +31,34 @@ class ApiController extends Controller
         return response()->json($video);
     }
 
-    public function getKegiatan(Request $request, $id_wisata){
-        $atraksi = Atraksi::select('*')
-        ->join('desa_wisata','desa_wisata.id','=','atraksi.desa_wisata_id')
-        ->where('atraksi.desa_wisata_id', $id_wisata)->get();
-        return response()->json($atraksi);
-    }
-
-    public function getEvent(Request $request){
-        $foto = Event::all();
+    public function getKategori(Request $request){
+        $foto = Kategori::all();
         return response()->json($foto);
     }
 
+    public function getKegiatan(Request $request, $nama_kategori = null){
+        if ($nama_kategori != null){
+            $atraksi = Atraksi::select('*')
+            ->join('desa_wisata','desa_wisata.id','=','kegiatan.desa_wisata_id')
+            ->join('kategori','kategori.id','=','kegiatan.kategori_id')
+            ->where('kategori.nama_kategori',$nama_kategori)->get();
+        } else {
+            $atraksi = Atraksi::select('*')
+            ->join('desa_wisata','desa_wisata.id','=','kegiatan.desa_wisata_id')
+            ->join('kategori','kategori.id','=','kegiatan.kategori_id')->get();
+        }
 
-    public function getKalender(Request $request, $cari = null){
-        $kalender = CalendarEvent::select('*')
-        ->where('judul','like',"%$cari%")->get();
-        return response()->json($kalender);
+        return response()->json($atraksi);
+    }
+
+    public function getEvent(Request $request, $status = null){
+        if ($status != null){
+            $event = CalendarEvent::select('*')
+            ->where('event.status', $status)->get();
+        } else {
+            $event = CalendarEvent::select('*')->get();
+        }
+
+        return response()->json($event);
     }
 }
