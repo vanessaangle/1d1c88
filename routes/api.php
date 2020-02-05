@@ -14,9 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::get('wisata/{id?}','ApiController@getWisata');
-Route::get('atraksi/{id?}','ApiController@getAtraksi');
+Route::get('kategori/','ApiController@getKategori');
+Route::get('kegiatan/{id?}/','ApiController@getKegiatan');
 Route::get('wisata/{id}/foto','ApiController@getFotoWisata');
 Route::get('wisata/{id}/video', 'ApiController@getVideoWisata');
-Route::get('kegiatan/{id?}','ApiController@getKegiatan');
-Route::get('event/','ApiController@getEvent');
-Route::get('kalendar/{id?}', 'ApiController@getKalender');
+Route::get('event/{id?}','ApiController@getEvent');
